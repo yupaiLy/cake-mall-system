@@ -1,2 +1,2 @@
 # cake-mall-system
-餐饮管理系统
+蛋糕商城
