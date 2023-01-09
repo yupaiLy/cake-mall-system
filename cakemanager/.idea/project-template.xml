@@ -1,0 +1,4 @@
+<template>
+  <input-field default="cn.twopair">IJ_BASE_PACKAGE</input-field>
+  <input-field default="Tomcat 9.0.68">IJ_APPLICATION_SERVER</input-field>
+</template>

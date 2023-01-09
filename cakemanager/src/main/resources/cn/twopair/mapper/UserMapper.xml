@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.twopair.mapper.UserMapper">
+
+    <!--批量删除用户-->
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete from user where id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="conditionQuery" resultType="cn.twopair.pojo.User">
+        select * from user
+        <where>
+            <if test="user.username != null and user.username.trim() != ''">
+                and username like CONCAT('%',#{user.username},'%')
+            </if>
+            <if test="user.name != null and user.name.trim() != ''">
+                and name like CONCAT('%',#{user.name},'%')
+            </if>
+            <if test="user.gender == '0'.toString() or user.gender == '1'.toString() or user.gender == '-1'.toString()">
+                and gender = #{user.gender}
+            </if>
+            <if test="user.status == '0'.toString() or user.status == '1'.toString()">
+                and status = #{user.status}
+            </if>
+        </where>
+        limit #{index}, #{size}
+    </select>
+
+    <select id="conditionQueryData" resultType="cn.twopair.pojo.User">
+        select * from user
+        <where>
+            <if test="user.username != null and user.username.trim() != ''">
+                and username like CONCAT('%',#{user.username},'%')
+            </if>
+            <if test="user.name != null and user.name.trim() != ''">
+                and name like CONCAT('%',#{user.name},'%')
+            </if>
+            <if test="user.gender == '0'.toString() or user.gender == '1'.toString() or user.gender == '-1'.toString()">
+                and gender = #{user.gender}
+            </if>
+            <if test="user.status == '0'.toString() or user.status == '1'.toString()">
+                and status = #{user.status}
+            </if>
+        </where>
+    </select>
+
+</mapper>

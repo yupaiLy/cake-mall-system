@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.twopair.mapper.CakeMapper">
+
+    <!--    <resultMap id="BaseResultMap" type="cn.twopair.pojo.Cake">-->
+    <!--            <id property="id" column="id" jdbcType="INTEGER"/>-->
+    <!--            <result property="name" column="name" jdbcType="VARCHAR"/>-->
+    <!--            <result property="price" column="price" jdbcType="FLOAT"/>-->
+    <!--            <result property="number" column="number" jdbcType="INTEGER"/>-->
+    <!--            <result property="status" column="status" jdbcType="INTEGER"/>-->
+    <!--            <result property="imgUrl" column="imgUrl" jdbcType="VARCHAR"/>-->
+    <!--            <result property="description" column="description" jdbcType="VARCHAR"/>-->
+    <!--            <result property="cid" column="cid" jdbcType="INTEGER"/>-->
+    <!--            <result property="likesNumber" column="likesNumber" jdbcType="INTEGER"/>-->
+    <!--    </resultMap>-->
+
+    <!--批量删除商品-->
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete from product where id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="conditionQuery" resultType="cn.twopair.pojo.Cake">
+        select * from product
+        <where>
+            <if test="cake.name != null and cake.name.trim() != ''">
+                and name like CONCAT('%',#{cake.name},'%')
+            </if>
+            <if test="cake.cid != null">
+                and cid = #{cake.cid}
+            </if>
+            <if test="cake.status == '0'.toString() or cake.status == '1'.toString()">
+                and status = #{cake.status}
+            </if>
+        </where>
+        limit #{index}, #{size}
+    </select>
+
+
+    <select id="conditionQueryData" resultType="cn.twopair.pojo.Cake">
+        select * from product
+        <where>
+            <if test="cake.name != null and cake.name.trim() != ''">
+                and name like CONCAT('%',#{cake.name},'%')
+            </if>
+            <if test="cake.cid != null">
+                and cid = #{cake.cid}
+            </if>
+            <if test="cake.status == '0'.toString() or cake.status == '1'.toString()">
+                and status = #{cake.status}
+            </if>
+        </where>
+    </select>
+
+    <select id="conditionQueryByCategoryName" resultType="cn.twopair.pojo.Cake">
+        SELECT *
+        FROM product
+        WHERE cid = (SELECT id FROM category WHERE name = #{name})
+        <if test="index != null and size != null">
+            LIMIT #{index}, #{size}
+        </if>
+    </select>
+
+</mapper>

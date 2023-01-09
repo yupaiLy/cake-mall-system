@@ -1,0 +1,15 @@
+table {
+  border: 3px solid #2eb1c9;
+  border-collapse: collapse;
+}
+table thead {
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 2px solid #31c1b5;
+}
+table tbody tr {
+  border: 1px solid #3fb4c3;
+}
+table tbody tr td {
+  border-right: 1px solid #38a2c3;
+}

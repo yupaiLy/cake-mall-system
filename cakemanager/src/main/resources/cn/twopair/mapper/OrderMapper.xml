@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.twopair.mapper.OrderMapper">
+
+
+    <select id="conditionQuery" resultType="cn.twopair.pojo.Order">
+        select * from order_
+        <where>
+            <if test="order.code != null and order.code.trim() != ''">
+                and code = #{order.code}
+            </if>
+            <if test="order.phone != null and order.phone.trim() != ''">
+                and phone like CONCAT('%',#{order.phone},'%')
+            </if>
+            <if test="order.status != null and order.status.trim() != ''">
+                and status = #{order.status}
+            </if>
+        </where>
+        <if test="index != null and size != null">
+            LIMIT #{index}, #{size}
+        </if>
+    </select>
+
+    <!--批量删除订单-->
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete from order_ where id IN
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+</mapper>
